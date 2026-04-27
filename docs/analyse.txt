@@ -1,0 +1,45 @@
+================================================================================
+DOCUMENTATION TECHNIQUE : ARCHITECTURE DES DONNÉES - PROJET CARCASSONNE
+================================================================================
+
+A. L'énumération TypeZone :
+   - Pourquoi : Permet d'éviter les "nombres magiques" dans le code. 
+   - Utilité : Facilite la comparaison des bords lors de la pose d'une tuile. 
+     (Ex: if (tuileA.bord[SUD] == tuileB.bord[NORD])).
+   - Valeur VIDE : Cruciale pour l'initialisation et la sécurité des pointeurs.
+
+B. La structure Tuile :
+   - Pourquoi : Regroupe toutes les propriétés immuables de l'objet physique.
+   - Le tableau bords[4] : Permet d'itérer sur les faces de la tuile via une 
+     boucle, facilitant ainsi l'algorithme de rotation (décalage circulaire).
+   - Rotation : Stockée comme un état pour permettre un affichage cohérent sans 
+     altérer définitivement les données sources de la tuile.
+
+C. La structure Partisan :
+   - Pourquoi : Représente le lien dynamique entre un Joueur et le Plateau.
+   - Emplacement : Utilise l'énumération Position pour savoir précisément sur 
+     quel segment de la tuile le pion est posé. Cela est vital pour le calcul 
+     des scores différenciés (Voleur sur route vs Chevalier en ville).
+
+D. La structure Plateau (La Grille) :
+   - Pourquoi : Gestion de l'espace de jeu.
+   - Choix technique : Une matrice de pointeurs (Tuile*). 
+   - Avantage : NULL indique l'absence de tuile. Cela permet une vérification 
+     instantanée de la validité des coordonnées sans fonctions de recherche 
+     coûteuses.
+
+E. La structure GameState (L'État du Jeu) :
+   - Pourquoi : Centralisation de l'information.
+   - Avantage : Permet de passer une seule variable (par pointeur) à toutes les 
+     fonctions du moteur de jeu, garantissant que tout le programme travaille 
+     sur la même instance de la partie.
+
+F. Configuration des Tuiles :
+   - Pourquoi : Permet une configuration externe et modifiable des 72 tuiles du jeu.
+   - Utilité : Le fichier tuile.txt sera lu par le module tuile.c pour initialiser 
+     et configurer toutes les tuiles avec leurs propriétés (bords, centres, etc.).
+   - Avantages : Corrections rapides des données de tuiles sans nécessiter une 
+     recompilation du code, et une gestion propre et séparée des fichiers de 
+     données et du code source.
+================================================================================
+
