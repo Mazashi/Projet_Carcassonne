@@ -70,7 +70,7 @@ typedef struct
 // Structure globale de contrôle (Game State)
 typedef struct
 {
-    Plateau plateau;
+    Plateau *plateau;
     Joueur joueurs[MAX_JOUEURS];
     int nbJoueurs;
     int tourActuel; // Index du joueur dont c'est le tour
