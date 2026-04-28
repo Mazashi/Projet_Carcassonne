@@ -15,6 +15,44 @@
 static const int DX[4] = {0, 1, 0, -1};
 static const int DY[4] = {-1, 0, 1, 0};
 
+static const char *typezone_nom(TypeZone zone)
+{
+    switch (zone)
+    {
+    case PLAINE:
+        return "PLAINE";
+    case ROUTE:
+        return "ROUTE";
+    case VILLE:
+        return "VILLE";
+    case ABBAYE:
+        return "ABBAYE";
+    case VIDE:
+        return "VIDE";
+    default:
+        return "INCONNU";
+    }
+}
+
+static const char *position_nom(Position pos)
+{
+    switch (pos)
+    {
+    case NORD:
+        return "NORD";
+    case EST:
+        return "EST";
+    case SUD:
+        return "SUD";
+    case OUEST:
+        return "OUEST";
+    case CENTRE:
+        return "CENTRE";
+    default:
+        return "INCONNU";
+    }
+}
+
 /* ═══════════════════════════════════════════════════════
  * moteur_init
  * Pose la tuile de départ (index 0 de la pioche, avant
@@ -327,11 +365,11 @@ void moteur_tour(GameState *gs)
         printf("[Moteur] Pioche vide.\n");
         return;
     }
-    printf("[Pioche] Tuile ID %d — N:%d E:%d S:%d O:%d Centre:%d\n",
+    printf("[Pioche] Tuile ID %d — N:%s E:%s S:%s O:%s Centre:%s\n",
            t->id,
-           t->bords[NORD], t->bords[EST],
-           t->bords[SUD], t->bords[OUEST],
-           t->centre);
+           typezone_nom(t->bords[NORD]), typezone_nom(t->bords[EST]),
+           typezone_nom(t->bords[SUD]), typezone_nom(t->bords[OUEST]),
+           typezone_nom(t->centre));
 
     /* 2. Trouver les positions valides */
     ListePositions lp = moteur_positions_valides(gs, t);
@@ -383,7 +421,10 @@ void moteur_tour(GameState *gs)
 
         if (rep == 1)
         {
-            printf("Emplacement (0=NORD 1=EST 2=SUD 3=OUEST 4=CENTRE) : ");
+            printf("Emplacement (0=%s 1=%s 2=%s 3=%s 4=%s) : ",
+                   position_nom(NORD), position_nom(EST),
+                   position_nom(SUD), position_nom(OUEST),
+                   position_nom(CENTRE));
             int empl = 0;
             scanf("%d", &empl);
 
